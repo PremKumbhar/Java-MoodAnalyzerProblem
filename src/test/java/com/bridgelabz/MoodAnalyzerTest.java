@@ -6,21 +6,43 @@ import org.junit.Test;
 public class MoodAnalyzerTest {
     @Test
     public void testMoodAnalysis(){
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am in sad mood");
-        String result = moodAnalyzer.analyseMood();
-        Assert.assertEquals("SAD",result);
+        MoodAnalyzer moodAnalyser = new MoodAnalyzer("I am in sad mood");
+        try {
+            String result = moodAnalyser.analyseMood();
+            Assert.assertEquals("SAD",result);
+        }catch (MoodAnalysisException exception){
+            System.out.println(exception.getMessage());
+        }
 
     }
     @Test
     public void givenHappyMessage_shouldReturnHappy(){
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am in any mood");
-        String result = moodAnalyzer.analyseMood();
-        Assert.assertEquals("HAPPY",result);
+        MoodAnalyzer moodAnalyser = new MoodAnalyzer("I am in any mood");
+        try {
+            String result = moodAnalyser.analyseMood();
+            Assert.assertEquals("HAPPY",result);
+        }catch (MoodAnalysisException exception){
+            System.out.println(exception.getMessage());
+        }
     }
+
     @Test
-    public void givenNullMessage_shouldReturnHappy(){
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer();
-        String result = moodAnalyzer.analyseMood();
-        Assert.assertEquals("HAPPY", result);
+    public void givenNullMessage_shouldThrowMoodAnalysisException(){
+        MoodAnalyzer moodAnalyser = new MoodAnalyzer();
+        try{
+            moodAnalyser.analyseMood();
+        }catch (MoodAnalysisException exception){
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.NULL,exception.Type);
+        }
+    }
+
+    @Test
+    public void givenEmptyMessage_shouldThrowMoodAnalysisException(){
+        MoodAnalyzer moodAnalyser = new MoodAnalyzer("");
+        try{
+            moodAnalyser.analyseMood();
+        }catch (MoodAnalysisException exception){
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.EMPTY,exception.Type);
+        }
     }
 }
